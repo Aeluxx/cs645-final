@@ -10,12 +10,14 @@
 # MINIMIXE/MAXIMIZE COUNT(*)
 # otherwise.
 
-from pulp.pulp import LpVariable
-from pulp.constants import LpMaximize
+import math
+
+import numpy as np
 import pandas as pd
 import pulp
-import numpy as np
-import cplex
+from pulp.constants import LpMaximize
+from pulp.pulp import LpVariable
+
 
 def directMethod(data, flag, A0, constraints, count_constraint):
 
@@ -65,16 +67,17 @@ def directMethod(data, flag, A0, constraints, count_constraint):
       problem += pulp.lpSum(attr_variables) <= constraint[2]
 
     # print(problem)
+    
+  ilp = pulp.CPLEX_CMD(keepFiles=True)
+  result = problem.solve(ilp)
 
   #TODO : Add the solver
   # Get the result tuples 
   # Return the result dataframe
-    
 
-# **** Testing *****
-# import math
-# df = pd.read_csv('tpch.csv', sep=',')
-# size = math.ceil(len(df) * .001)
-# small_df = df.head(size)
-# directMethod(small_df, True, "count_order", [['sum_base_price', None, 15469853]], {'LC' : 1, "UC" : None})
-
+if __name__ == "__main__":
+  print("Direct Running")
+  df = pd.read_csv('tpch.csv', sep=',')
+  size = math.ceil(len(df) * .001)
+  small_df = df.head(size)
+  directMethod(small_df, True, "count_order", [['sum_base_price', None, 15469853]], {'LC' : 1, "UC" : None})

@@ -12,8 +12,8 @@ def createPartions(df : pd.DataFrame):
     kmeans = KMeans(n_clusters=10)
     # Cluster cols is used so that the column "id" is not used for clustering
     kmeans = kmeans.fit(df[CLUSTER_COLS])
-    print("Number of lables: ", len(kmeans.labels_))
-    print("Unique elements in labels: ", set(kmeans.labels_))
+    # print("Number of lables: ", len(kmeans.labels_))
+    # print("Unique elements in labels: ", set(kmeans.labels_))
     df["cluster_label"] = kmeans.labels_
     cluster_df = pd.DataFrame(data=kmeans.cluster_centers_, columns=CLUSTER_COLS)
     # TODO : Remove hard coded list
@@ -23,21 +23,17 @@ def createPartions(df : pd.DataFrame):
         filepath = "part" + str(label) + ".csv"
         label_partition_df = df[df["cluster_label"] == label]
         label_partition_df.to_csv(path_or_buf=filepath, index=False)
-    max_df = df.groupby("cluster_label").max()
-    min_df = df.groupby("cluster_label").min()
-    return cluster_df, max_df, min_df
+    cluster_df.set_index([pd.Index(["rep1","rep2","rep3","rep4","rep5","rep6","rep7","rep8","rep9","rep10"])], inplace=True)
+    return cluster_df
 
 # TODO: For testing. Reomve the following portion later
-if __name__ == "__main__":
-    df = pd.read_csv('../tpch.csv', sep=',')
-    size = math.ceil(len(df) * .1)
-    small_df = df.head(size)
-    print("Number rows in small df: ", len(small_df.index))
-    # Below portion goes into the method
-    cluster_df, max_df, min_df = createPartions(small_df)
-    print("Cluster DF: ")
-    print(cluster_df.head())
-    print("Max DF: ")
-    print(max_df.head())
-    print("Min DF: ")
-    print(min_df.head())
+# if __name__ == "__main__":
+#     df = pd.read_csv('../tpch.csv', sep=',')
+#     size = math.ceil(len(df) * .1)
+#     small_df = df.head(size)
+#     print("Number rows in small df: ", len(small_df.index))
+#     # Below portion goes into the method
+#     cluster_df = createPartions(small_df)
+#     print("Cluster DF: ")
+#     print(cluster_df.head())
+#     print(cluster_df.index)

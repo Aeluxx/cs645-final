@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 import pulp
 from pulp.pulp import LpVariable
-from partitioning import kmeans
+from partitioning import kdtree
 
 # Need these global variables for greedy-refine
 flag = None
@@ -186,29 +186,31 @@ def constructRefinedQuery(repRelation, currentPartition):
             problem += pulp.lpSum(attr_variables) <= constraint[2]
     return problem
     	
-
-
 if __name__ == "__main__":
     df = pd.read_csv('./tpch.csv', sep=',')
     size = math.ceil(len(df) * .1)
     small_df = df.head(size)
     # small_df = df
-    cluster_df = kmeans.createPartions(small_df)
-    # print(cluster_df.head())
-    startTime = time()
-    flag = False
-    A0 = None
-    constraints =  [['revenue', 413930.849506, None]]
+    cluster_df = kdtree.getRepresentation(small_df)
+    print("Cluster df")
+    print(cluster_df.head())
+    # startTime = time()
+    flag = True
+    A0 = "count_order"
+    constraints =  [['sum_base_price', None, 15469853.7043], ['sum_disc_price', None, 45279795.0584],
+                        ['sum_charge', None, 95250227.7918], ['avg_qty', None, 50.353948653],
+                        ['avg_price', None, 68677.5852459], ['avg_disc', None, 0.110243522496],
+                        ['sum_qty', None, 77782.028739]]
     count_constraint = {'LC': 1, "UC": None}
     result =  sketch(cluster_df, flag, A0, constraints, count_constraint)
     P = result["cluster_label"].tolist()
-    print("#######################################################################")
+    # print("#######################################################################")
     print(P)
-    result = greedy_refine(P, result)
-    print("#######################################################################")
-    print(result)
-    endtime = time()
-    print("Time taken: ", str(endtime - startTime))
+    # result = greedy_refine(P, result)
+    # print("#######################################################################")
+    # print(result)
+    # endtime = time()
+    # print("Time taken: ", str(endtime - startTime))
 
 	
 """

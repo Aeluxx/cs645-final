@@ -1,6 +1,6 @@
 from direct_method import directMethod
 from sketch_refine import sketch, greedy_refine
-from partitioning import kmeans, kdtree
+from partitioning import kmeans, kdtree, gaussian
 import pulp
 import pandas as pd
 import time
@@ -62,6 +62,18 @@ def testQueries(to_solve, to_read, id, data_range, cluster_range, mode=0):
                     continue
 
                 result, junk = greedy_refine(ilp, query, cluster_df, cluster_df, sketched, df)
+
+            # Gaussian
+            elif mode == 3:
+                cluster_df, cluster_size, df = gaussian.createPartions(small_df, cluster_actual)
+                sketched = sketch(cluster_df, cluster_size, query)
+                if sketched is None:
+                    total.append([id, data, cluster, "---", "---"])
+                    continue
+
+                df = df.drop('id', axis=1)
+
+                result, junk = greedy_refine(ilp, query, cluster_df, cluster_df, sketched, df)
             else:
                 result = directMethod(ilp, small_df, query)
 
@@ -84,10 +96,9 @@ if __name__ == "__main__":
 
     to_test = [1, 3, 4]
     for i in to_test:
-        to_add = testQueries(ilp, csv_df, i, data_sizes, cluster_sizes, 1)
+        to_add = testQueries(ilp, csv_df, i, data_sizes, cluster_sizes, 3)
         total.append(to_add)
 
     result_df = pd.concat(total)
     print("RESULTS")
     print(result_df)
-    

@@ -5,6 +5,8 @@ import pulp
 import numpy as np
 import cplex
 
+#Jahnavi Tirunagari
+
 def directMethod(ilp, data, query, offsets=None):
     flag, A0, constraints, count_constraint = query
     if flag:

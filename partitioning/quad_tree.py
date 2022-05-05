@@ -1,3 +1,4 @@
+# Shruti Jasoria
 import math
 from numpy import partition
 
@@ -41,22 +42,23 @@ def genQuadTree(df : pd.DataFrame, stopping_count : int):
 			splits = new_splits
 	## recursion time		
 	for split in splits:
-		genQuadTree(split, stopping_count)	
-
+		genQuadTree(split, stopping_count)
 
 def genRepresenation(df, stopping_count):
 	print("Generating partitions")
 	genQuadTree(df, stopping_count)
 	num_partitions = len(PARTITIONS)
+	size = []
 	for label in range(num_partitions):
 		partition = PARTITIONS[label]
 		partition["cluster_label"] = label
 		filepath = "part" + str(label) + ".csv"
+		size.append(len(partition.index))
 		partition.to_csv(path_or_buf=filepath, index=False)
-	final_partition = pd.concat(PARTITIONS)
-	rep_df = final_partition.groupby("cluster_label", as_index=False).mean()
+	df = pd.concat(PARTITIONS)
+	rep_df = df.groupby("cluster_label", as_index=False).mean()
 	rep_df.drop("id", axis=1, inplace=True)
-	return rep_df
+	return rep_df, size, df
 
 
 if __name__ == "__main__":
@@ -65,7 +67,7 @@ if __name__ == "__main__":
 	df = df.head(df_size)
 	print("Data frame size: ", df_size)
 	stop_size = math.ceil(df_size * 0.1)
-	rep_df = genRepresenation(df, stop_size)
+	rep_df, size, df = genRepresenation(df, stop_size)
 	print(rep_df.head())
 	print("Total number of clusters: ", len(rep_df.index))
 

@@ -1,6 +1,6 @@
 from direct_method import directMethod
 from sketch_refine import sketch, greedy_refine
-from partitioning import kmeans, kdtree, gaussian
+from partitioning import kmeans, kdtree, gaussian, quad_tree
 import pulp
 import pandas as pd
 import time
@@ -72,6 +72,30 @@ def testQueries(to_solve, to_read, id, data_range, cluster_range, mode=0):
                     continue
 
                 df = df.drop('id', axis=1)
+
+                result, junk = greedy_refine(ilp, query, cluster_df, cluster_df, sketched, df)
+
+            elif mode == 4:
+                cluster_df, cluster_size, df = gaussian.createPartions(small_df, cluster_actual)
+
+                df = df.drop('id', axis=1)
+
+                cluster_df = df.groupby("cluster_label", as_index=False).min()
+
+                sketched = sketch(cluster_df, cluster_size, query)
+                if sketched is None:
+                    total.append([id, data, cluster, "---", "---"])
+                    continue
+
+                result, junk = greedy_refine(ilp, query, cluster_df, cluster_df, sketched, df)
+
+            elif mode == 5:
+                cluster_df, cluster_size, df = quad_tree.genRepresenation(small_df, size * 0.1)
+
+                sketched = sketch(cluster_df, cluster_size, query)
+                if sketched is None:
+                    total.append([id, data, cluster, "---", "---"])
+                    continue
 
                 result, junk = greedy_refine(ilp, query, cluster_df, cluster_df, sketched, df)
             else:

@@ -1,3 +1,6 @@
+# Matthew Gregory: matthewgrego@umass.edu
+# Shruti Jasoria: sjasoria@umass.edu
+
 import numpy as np
 import pandas as pd
 from sklearn.neighbors import KDTree, DistanceMetric

@@ -1,4 +1,4 @@
-# Matthew Gregory
+# Matthew Gregory: matthewgrego@umass.edu
 
 def get_query(id):
     if id == 1:

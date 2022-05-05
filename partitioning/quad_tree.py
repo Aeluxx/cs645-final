@@ -1,5 +1,5 @@
-# Shruti Jasoria
-import math
+# Jahnavi Tirunagari: vtirunagari@umass.edu
+# Shruti Jasoria: sjasoria@umass.edu
 
 import pandas as pd
 
@@ -56,6 +56,3 @@ def genRepresenation(df, stopping_count):
     rep_df = df.groupby("cluster_label", as_index=False).mean()
     rep_df.drop("id", axis=1, inplace=True)
     return rep_df, size, df
-
-
-

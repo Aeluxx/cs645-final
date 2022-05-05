@@ -1,11 +1,9 @@
-from pulp.pulp import LpVariable
-import math
+# Jahnavi Tirunagari: vtirunagari@umass.edu
+
+import numpy as np
 import pandas as pd
 import pulp
-import numpy as np
-import cplex
-
-#Jahnavi Tirunagari
+from pulp.pulp import LpVariable
 
 def directMethod(ilp, data, query, offsets=None):
     flag, A0, constraints, count_constraint = query

@@ -1,4 +1,5 @@
-# Reference https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html
+# Jahnavi Tirunagari: vtirunagari@umass.edu
+
 import math
 
 import pandas as pd

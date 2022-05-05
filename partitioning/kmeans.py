@@ -1,5 +1,4 @@
-# Reference https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html
-import math
+# Shruti Jasoria: sjasoria@umass.edu
 
 import pandas as pd
 from sklearn.cluster import KMeans

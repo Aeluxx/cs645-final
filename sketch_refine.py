@@ -1,8 +1,9 @@
+# Matthew Gregory: matthewgrego@umass.edu
+# Shruti Jasoria: sjasoria@umass.edu
+
 import numpy as np
 import pandas as pd
 import pulp
-import math
-import sys
 
 from direct_method import directMethod
 from partitioning import kmeans

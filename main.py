@@ -1,3 +1,7 @@
+# Jahnavi Tirunagari: vtirunagari@umass.edu
+# Matthew Gregory: matthewgrego@umass.edu
+# Shruti Jasoria: sjasoria@umass.edu
+
 from direct_method import directMethod
 from sketch_refine import sketch, greedy_refine
 from partitioning import kmeans, kdtree, gaussian, quad_tree
@@ -7,8 +11,6 @@ import time
 import math
 import numpy as np
 from queries import get_query
-
-# Matthew Gregory
 
 def testQueries(to_solve, to_read, id, data_range, cluster_range, mode=0):
     total = []

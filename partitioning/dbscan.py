@@ -1,3 +1,4 @@
+# Shruti Jasoria: sjasoria@umass.edu
 import math
 
 import numpy as np
@@ -39,11 +40,3 @@ def generateParitions(df):
 	rep_df.drop("id", axis=1, inplace=True)
 	print(rep_df.head())
 	return rep_df
-	
-
-if __name__ == "__main__":
-	df = pd.read_csv('../tpch.csv', sep=',')
-	size = math.ceil(len(df) * .01)
-	df = df.head(size)
-	print("Number rows in df: ", len(df.index))
-	rep_df = generateParitions(df)

@@ -1,3 +1,5 @@
+# Jahnavi Tirunagari: vtirunagari@umass.edu
+
 import pandas as pd
 from sklearn.cluster import AgglomerativeClustering
 import math
@@ -6,8 +8,6 @@ import numpy as np
 CLUSTER_COLS = ["sum_base_price", "sum_disc_price", "sum_charge", "avg_qty", "avg_price", "avg_disc", "sum_qty",
                 "count_order", "p_size", "ps_min_supplycost", "revenue", "o_totalprice", "o_shippriority"]
 
-
-# Jahnavi Tirunagari
 
 def createPartitions(df: pd.DataFrame, cluster_num):
     clusters = cluster_num

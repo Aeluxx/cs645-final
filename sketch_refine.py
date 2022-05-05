@@ -12,18 +12,10 @@ pd.options.mode.chained_assignment = None  # default='warn'
 
 csv_df = None
 
-def filter(data, constraints):
-    to_Return = data
-    for constraint in constraints:
-        numpy_data = to_Return[constraint[0]].to_numpy()
-        if constraint[1] is not None:
-            to_Return = to_Return[to_Return[constraint[0]] >= constraint[2]]
+# Matthew Gregory (matthewgrego@umass.edu)
+# Algorithm referenced from PaSQL paper
 
-        if constraint[2] is not None:
-            to_Return = to_Return[to_Return[constraint[0]] >= constraint[1]]
-
-    return to_Return
-
+# Based on direct_method.py by Jahnavi Tirunagari
 def sketch(data, sizes, query):
     flag, A0, constraints, count_constraint = query
     if flag:

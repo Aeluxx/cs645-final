@@ -1,6 +1,6 @@
 from direct_method import directMethod
 from sketch_refine import sketch, greedy_refine
-from partitioning import kmeans
+from partitioning import kmeans, kdtree
 import pulp
 import pandas as pd
 import time
@@ -8,8 +8,9 @@ import math
 import numpy as np
 from queries import get_query
 
+# Matthew Gregory
 
-def testQueries(to_solve, to_read, id, data_range, cluster_range, direct=False):
+def testQueries(to_solve, to_read, id, data_range, cluster_range, mode=0):
     total = []
 
     ilp = to_solve
@@ -30,7 +31,7 @@ def testQueries(to_solve, to_read, id, data_range, cluster_range, direct=False):
             size = math.ceil(len(csv_df) * data_actual)
             small_df = csv_df.head(size)
 
-            if not direct:
+            if mode == 0:
                 cluster_df, cluster_size, df = kmeans.createPartions(small_df, cluster_actual)
                 sketched = sketch(cluster_df, cluster_size, query)
                 if sketched is None:
@@ -38,6 +39,27 @@ def testQueries(to_solve, to_read, id, data_range, cluster_range, direct=False):
                     continue
 
                 df = df.drop('id', axis=1)
+
+                result, junk = greedy_refine(ilp, query, cluster_df, cluster_df, sketched, df)
+            elif mode == 1:
+                cluster_df, cluster_size, df = kdtree.getRepresentation(small_df, int(0.05 * (len(small_df) / cluster_actual)))
+                sketched = sketch(cluster_df, cluster_size, query)
+                if sketched is None:
+                    total.append([id, data, cluster, "---", "---"])
+                    continue
+
+                result, junk = greedy_refine(ilp, query, cluster_df, cluster_df, sketched, df)
+            elif mode == 2:
+                cluster_df, cluster_size, df = kmeans.createPartions(small_df, cluster_actual)
+
+                df = df.drop('id', axis=1)
+
+                cluster_df = df.groupby("cluster_label", as_index=False).min()
+
+                sketched = sketch(cluster_df, cluster_size, query)
+                if sketched is None:
+                    total.append([id, data, cluster, "---", "---"])
+                    continue
 
                 result, junk = greedy_refine(ilp, query, cluster_df, cluster_df, sketched, df)
             else:
@@ -55,16 +77,17 @@ def testQueries(to_solve, to_read, id, data_range, cluster_range, direct=False):
 
 if __name__ == "__main__":
     total = []
-    data_sizes = (0.1, 1, 0.1)
-    cluster_sizes = (10, 10, 1)
+    data_sizes = (0.1, 0.1, 0.1)
+    cluster_sizes = (10, 100, 10)
     ilp = pulp.CPLEX_CMD(path="/Applications/CPLEX_Studio221/cplex/bin/x86-64_osx/cplex")
     csv_df = pd.read_csv('./tpch.csv', sep=',')
 
-    to_test = [3]
+    to_test = [1, 3, 4]
     for i in to_test:
-        to_add = testQueries(ilp, csv_df, i, data_sizes, cluster_sizes)
+        to_add = testQueries(ilp, csv_df, i, data_sizes, cluster_sizes, 1)
         total.append(to_add)
 
     result_df = pd.concat(total)
     print("RESULTS")
     print(result_df)
+    

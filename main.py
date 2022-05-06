@@ -24,7 +24,7 @@ def testQueries(to_solve, to_read, id, data_range, cluster_range, mode=0):
     query = get_query(id)
     flag, A0, constraints, count_constraint = query
 
-    runs = math.ceil((data_max - data_min) / data_increment), math.ceil((cluster_max - cluster_min) / cluster_increment)
+    runs = math.ceil((data_max + data_increment - data_min) / data_increment), math.ceil((cluster_max + cluster_increment - cluster_min) / cluster_increment)
 
     for data in range(0, runs[0]):
         for cluster in range(0, runs[1]):

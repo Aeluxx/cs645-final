@@ -24,11 +24,13 @@ def testQueries(to_solve, to_read, id, data_range, cluster_range, mode=0):
     query = get_query(id)
     flag, A0, constraints, count_constraint = query
 
-    for data in range(int(data_min / data_increment), int(data_max / data_increment) + 1):
-        for cluster in range(int(cluster_min / cluster_increment), int(cluster_max / cluster_increment) + 1):
+    runs = math.ceil((data_max - data_min) / data_increment), math.ceil((cluster_max - cluster_min) / cluster_increment)
+
+    for data in range(0, runs[0]):
+        for cluster in range(0, runs[1]):
             print("(" + str(data) + ", " + str(cluster) + ")")
-            data_actual = data * data_increment
-            cluster_actual = cluster * cluster_increment
+            data_actual = min(data_max, data_min + (data * data_increment))
+            cluster_actual = min(cluster_max, cluster_min + (cluster * cluster_increment))
             start = time.time()
 
             size = math.ceil(len(csv_df) * data_actual)

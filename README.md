@@ -1,6 +1,8 @@
 # CS 645 Final Project: PaSQL
 ## By Jahnavi Tirunagari, Matthew Gregory, and Shruti Jasoria
 
+Github Link: https://github.com/Aeluxx/cs645-final
+
 ## Project Description
 We implement algorithms found in PaQL, analyzing and solving package queries to find the most optimal return value.
 
@@ -40,7 +42,7 @@ flag = True (Maximize) or False (Minimize), A0 = Column to maximize or minimize,
 Same as in Method 1, defines the mode of solver to use in the package query.
 
 #### file
-A .csv file to run the query on. Starts in the same directory as the python file. For example, if tpch.csv is in this file's directory, the argument would simply be tpch.csv.
+A .csv file to run the query on. Starts in the same directory as the python file. For example, if tpch.csv is in this file's directory, the argument would simply be `tpch.csv`.
 
 ## Example Use
 As an example, to run 100% of the data used (ratio 1) and 10 clusters with Query #5 (Small Query 1) on the data in tpch_small.csv with the KMeans algorithm (id = 0), you would run the command:
@@ -50,3 +52,4 @@ As an example, to run 100% of the data used (ratio 1) and 10 clusters with Query
 ## Requirements
 To use this software, you must have IBM's CPLEX installed. If you are using Windows, then the code should work as-is. If you are using Mac OS, you must edit the code in main.py and sketch_refine.py to use the path to your CPLEX install location - for us, this was defined as `ilp = pulp.CPLEX_CMD(path="/Applications/CPLEX_Studio221/cplex/bin/x86-64_osx/cplex")`.
 
+Additionally, as tpch.csv was too large to submit to Gradescope or Github, it will need to be downloaded from the course website.

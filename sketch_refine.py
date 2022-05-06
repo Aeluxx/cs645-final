@@ -13,7 +13,6 @@ pd.options.mode.chained_assignment = None  # default='warn'
 
 csv_df = None
 
-# Matthew Gregory (matthewgrego@umass.edu)
 # Algorithm referenced from PaSQL paper
 
 # Based on direct_method.py by Jahnavi Tirunagari

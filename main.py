@@ -29,8 +29,8 @@ def testQueries(to_solve, to_read, id, data_range, cluster_range, mode=0):
     for data in range(0, runs[0]):
         for cluster in range(0, runs[1]):
             print("(" + str(data) + ", " + str(cluster) + ")")
-            data_actual = min(data_max, data_min + (data * data_increment))
-            cluster_actual = min(cluster_max, cluster_min + (cluster * cluster_increment))
+            data_actual = int(min(data_max, data_min + (data * data_increment)))
+            cluster_actual = int(min(cluster_max, cluster_min + (cluster * cluster_increment)))
             start = time.time()
 
             size = math.ceil(len(csv_df) * data_actual)

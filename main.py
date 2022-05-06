@@ -14,6 +14,7 @@ from queries import get_query
 
 def testQueries(to_solve, to_read, id, data_range, cluster_range, mode=0):
     total = []
+    results = []
 
     ilp = to_solve
     csv_df = to_read
@@ -109,22 +110,59 @@ def testQueries(to_solve, to_read, id, data_range, cluster_range, mode=0):
                 sum = np.sum(result[A0])
             end = time.time()
             total.append([id, data_actual, cluster_actual, (end - start), sum])
+            results.append(result)
 
-    return pd.DataFrame(total, columns=('query', 'data_percent', 'clusters', 'time', 'objective'))
+    return pd.DataFrame(total, columns=('query', 'data_percent', 'clusters', 'time', 'objective')), results
 
 
-if __name__ == "__main__":
+def demo_run(arguments):
+    data_size, cluster_size, query, mode, file = arguments
+    data_size = int(data_size)
+    cluster_size = float(cluster_size)
+    query = int(query)
+    mode = int(mode)
     total = []
-    data_sizes = (0.1, 0.1, 0.1)
-    cluster_sizes = (10, 100, 10)
-    ilp = pulp.CPLEX_CMD(path="/Applications/CPLEX_Studio221/cplex/bin/x86-64_osx/cplex")
-    csv_df = pd.read_csv('./tpch.csv', sep=',')
 
-    to_test = [1, 3, 4]
+    data_sizes = (data_size, data_size, 1)
+    cluster_sizes = (cluster_size, cluster_size, 1)
+    ilp = pulp.CPLEX_CMD(path="/Applications/CPLEX_Studio221/cplex/bin/x86-64_osx/cplex")
+    csv_df = pd.read_csv('./' + str(file), sep=',')
+    to_test = [query]
     for i in to_test:
-        to_add = testQueries(ilp, csv_df, i, data_sizes, cluster_sizes, 3)
+        to_add, results = testQueries(ilp, csv_df, i, data_sizes, cluster_sizes, mode)
         total.append(to_add)
 
     result_df = pd.concat(total)
     print("RESULTS")
     print(result_df)
+    print("")
+
+    for result in results:
+        print(result)
+
+if __name__ == "__main__":
+    if len(sys.argv) == 1:
+        total = []
+        data_sizes = (0.1, 1, 0.1)
+        cluster_sizes = (10, 10, 1)
+        ilp = pulp.CPLEX_CMD(path="/Applications/CPLEX_Studio221/cplex/bin/x86-64_osx/cplex")
+        csv_df = pd.read_csv('./tpch_small.csv', sep=',')
+
+        to_test = [5]
+        for i in to_test:
+            to_add, results = testQueries(ilp, csv_df, i, data_sizes, cluster_sizes, 0)
+            total.append(to_add)
+
+        result_df = pd.concat(total)
+        print("RESULTS")
+        print(result_df)
+    elif len(sys.argv) == 6:
+        arguments = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]
+        if sys.argv[1] == 0:
+            raise ValueError("Cannot examine 0 data!")
+        demo_run(arguments)
+    else:
+        raise ValueError("Must have 0 or 4 inputs in the form data_size (0.1 to 1) cluster_size (any non-negative "
+                         "number up to the number of tuples, query (1-4 from example, 5-6 small queries 1 & 2), "
+                         "mode (0 = KDTREE, 1 = KMEANS, 2 = KMEANS (MIN), 3 = GAUSSIAN, 4 = GAUSSIAN (MIN), 5 = "
+                         "QUADTREE, 6+ = DIRECT), and file name (csv format)")

@@ -52,7 +52,7 @@ def sketch(data, sizes, query):
             problem += pulp.lpSum([numpy_data[i] * counts[i] for i in range(0, len(sizes))])\
                        <= constraint[2]
 
-    ilp = pulp.CPLEX_CMD(path="/Applications/CPLEX_Studio221/cplex/bin/x86-64_osx/cplex")
+    ilp = pulp.CPLEX_CMD()
     problem.solve(ilp)
     solution = np.array([counts[i].varValue for i in range(0, len(sizes))])
     total = []

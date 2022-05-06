@@ -128,7 +128,7 @@ def demo_run(arguments):
 
     data_sizes = (data_size, data_size, 1)
     cluster_sizes = (cluster_size, cluster_size, 1)
-    ilp = pulp.CPLEX_CMD(path="/Applications/CPLEX_Studio221/cplex/bin/x86-64_osx/cplex")
+    ilp = pulp.CPLEX_CMD()
     csv_df = pd.read_csv('./' + str(file), sep=',')
     to_test = [query]
     for i in to_test:
@@ -148,7 +148,7 @@ if __name__ == "__main__":
         total = []
         data_sizes = (0.1, 1, 0.1)
         cluster_sizes = (10, 10, 1)
-        ilp = pulp.CPLEX_CMD(path="/Applications/CPLEX_Studio221/cplex/bin/x86-64_osx/cplex")
+        ilp = pulp.CPLEX_CMD()
         csv_df = pd.read_csv('./tpch_small.csv', sep=',')
 
         to_test = [5]

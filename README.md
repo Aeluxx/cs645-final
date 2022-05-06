@@ -43,9 +43,10 @@ Same as in Method 1, defines the mode of solver to use in the package query.
 A .csv file to run the query on. Starts in the same directory as the python file. For example, if tpch.csv is in this file's directory, the argument would simply be tpch.csv.
 
 ## Example Use
-As an example, to run Query #5 (Small Query 1) on the Small Dataset with the KMeans algorithm, with 100% of the data used and 10 clusters, you would run the command:
+As an example, to run 100% of the data used (ratio 1) and 10 clusters with Query #5 (Small Query 1) on the data in tpch_small.csv with the KMeans algorithm (id = 0), you would run the command:
 
 `python3 main.py 1 10 5 0 tpch_small.csv`
 
 ## Requirements
-To use this software, you must have IBM's CPLEX installed. Additionally, you must edit the code in main.py to use the path to your CPLEX install location - the path currently in the file corresponds to a Mac OS.
+To use this software, you must have IBM's CPLEX installed. If you are using Windows, then the code should work as-is. If you are using Mac OS, you must edit the code in main.py to use the path to your CPLEX install location - for us, this was defined as `ilp = pulp.CPLEX_CMD(path="/Applications/CPLEX_Studio221/cplex/bin/x86-64_osx/cplex")`.
+

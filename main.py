@@ -162,7 +162,7 @@ if __name__ == "__main__":
             raise ValueError("Cannot examine 0 data!")
         demo_run(arguments)
     else:
-        raise ValueError("Must have 0 or 4 inputs in the form data_size (0.1 to 1) cluster_size (any non-negative "
+        raise ValueError("Must have 0 or 5 inputs in the form data_size (0.1 to 1) cluster_size (any non-negative "
                          "number up to the number of tuples, query (1-4 from example, 5-6 small queries 1 & 2), "
                          "mode (0 = KDTREE, 1 = KMEANS, 2 = KMEANS (MIN), 3 = GAUSSIAN, 4 = GAUSSIAN (MIN), 5 = "
                          "QUADTREE, 6+ = DIRECT), and file name (csv format)")

@@ -46,3 +46,6 @@ A .csv file to run the query on. Starts in the same directory as the python file
 As an example, to run Query #5 (Small Query 1) on the Small Dataset with the KMeans algorithm, with 100% of the data used and 10 clusters, you would run the command:
 
 `python3 main.py 1 10 5 0 tpch_small.csv`
+
+## Requirements
+To use this software, you must have IBM's CPLEX installed. Additionally, you must edit the code in main.py to use the path to your CPLEX install location - the path currently in the file corresponds to a Mac OS.

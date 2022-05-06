@@ -48,5 +48,5 @@ As an example, to run 100% of the data used (ratio 1) and 10 clusters with Query
 `python3 main.py 1 10 5 0 tpch_small.csv`
 
 ## Requirements
-To use this software, you must have IBM's CPLEX installed. If you are using Windows, then the code should work as-is. If you are using Mac OS, you must edit the code in main.py to use the path to your CPLEX install location - for us, this was defined as `ilp = pulp.CPLEX_CMD(path="/Applications/CPLEX_Studio221/cplex/bin/x86-64_osx/cplex")`.
+To use this software, you must have IBM's CPLEX installed. If you are using Windows, then the code should work as-is. If you are using Mac OS, you must edit the code in main.py and sketch_refine.py to use the path to your CPLEX install location - for us, this was defined as `ilp = pulp.CPLEX_CMD(path="/Applications/CPLEX_Studio221/cplex/bin/x86-64_osx/cplex")`.
 

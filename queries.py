@@ -1,4 +1,4 @@
-# Matthew Gregory: matthewgrego@umass.edu
+# Matthew Gregory
 
 def get_query(id):
     if id == 1:
@@ -19,11 +19,23 @@ def get_query(id):
         A0 = None
         constraints = [['revenue', 413930.849506, None]]
         count_constraint = {'LC': 1, "UC": None}
-    else:
-        # Assumed to be id = 4
+    elif id == 4:
         flag = False
         A0 = None
         constraints = [['o_totalprice', None, 453998.242103], ['o_shippriority', 3, None]]
         count_constraint = {'LC': 1, "UC": None}
+    elif id == 5:
+        flag = True
+        A0 = "count_order"
+        constraints = [['o_totalprice', None, 400000]]
+        count_constraint = {'LC': 1, "UC": None}
+    elif id == 6:
+        flag = False
+        A0 = "revenue"
+        constraints = [['sum_base_price', None, 100000000]]
+        count_constraint = {'LC': 1, "UC": None}
+    else:
+        # To add a new query, add its format here
+        return None
 
     return flag, A0, constraints, count_constraint
